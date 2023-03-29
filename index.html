@@ -44,11 +44,11 @@
         pointer-events: none;
       }
       .sprite {
+        display: none;
         top: 36vh;
         left: 8vh;
         translate: 1vh 1vh;
         height: 20vh;
-        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -102,36 +102,37 @@
       let sprite = document.getElementById("sprite");
       let hammer = document.getElementById("hammer");
       let hammer1 = document.getElementById("hammer1");
+      let sprite1 = document.getElementById("sprite1");
       console.log(sprite);
       var x = 0;
       let positions = [
         {
           left: 8,
-          top: 37,
+          top: 38,
         },
         {
-          top: 28,
+          top: 29,
           left: 30,
         },
         {
           left: 5,
-          top: 54,
+          top: 55,
         },
         {
           left: 20,
-          top: 48,
+          top: 49,
         },
         {
           left: 36,
-          top: 42,
+          top: 43,
         },
         {
           left: 11,
-          top: 70,
+          top: 71,
         },
         {
           left: 32,
-          top: 61,
+          top: 62,
         },
       ];
 
@@ -139,7 +140,7 @@
 
       setInterval(() => {
         showUp(Math.floor(Math.random() * 7), Math.random() * 0.3);
-      }, 2200);
+      }, 1750);
 
       // for(let i = 0; i < 7; i++){
       //     setTimeout(() => {
@@ -154,19 +155,19 @@
           hammer.src = "hammer.gif";
           let top = sprite.style.top.substring(0, sprite.style.top.length - 2);
           let left = sprite.style.left.substring(0, sprite.style.left.length - 2);
-          sprite.style.display = "none";
-          let sprite1 = document.getElementById("sprite1");
-          sprite1.style.display = "flex";
-          sprite1.style.top = sprite.style.top;
-          sprite1.style.left = sprite.style.left;
-          sprite1.style.zIndex = sprite.style.zIndex;
           hammer.style.top = Number(top) - 19 + "vh";
           hammer.style.left = Number(left) - 33 + "vh";
           document.getElementById("sound").play()
+          sprite1.style.top = sprite.style.top;
+          sprite1.style.left = sprite.style.left;
+          sprite1.style.zIndex = sprite.style.zIndex;
+          x = 31
+          setTimeout(() => {
+            sprite.style.display = "none";
+            sprite1.style.display = "flex";
+          }, 200);
           setTimeout(() => {
             hammer.style.display = "none";
-            sprite.style.display = "flex";
-            sprite1.style.display = "none";
           }, 1100);
         }
       };
@@ -181,6 +182,8 @@
       // }
 
       function showUp(position, speed = 0.2) {
+        sprite.style.display = "flex"
+        sprite1.style.display = "none";
         sprite.style.left = positions[position].left + "vh";
         sprite.style.top = positions[position].top + "vh";
         if (position < 2) {
