@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        .a{
+            position: absolute;
+        }
+        .bg{
+            height: 98vh;
+            z-index: 0;
+        }
+        .lines{
+            height: 90vh;
+            top: 8vh;
+            z-index: 4;
+            pointer-events: none;
+        }
+        .holes{
+            margin-left: 0.5vh;
+        }
+        .one{
+            height:75vh;
+            top: 23vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .two{
+            top: 40vh;
+            height: 58vh;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .three{
+            top: 57vh;
+            height: 40vh;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .sprite{
+            top: 36vh;
+            left: 8vh;
+            translate: 1vh 1vh;
+            height: 20vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .hammer{
+            display: none;
+            z-index: 5;
+            height: 43vh;
+            top: 9vh;
+            left: -2vh;
+        }
+        #sprite1{
+            display: none;
+        }
+        .head{
+            position: relative;
+            top: 2px;
+            height: 12vh;
+        }
+        .body{
+            height: 8vh;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="cont">
+        <img class="bg a" src="background.svg"/>
+        <img class="lines a" src="lines.svg"/>
+        <img class="holes one a" src="holes1.svg"/>
+        <img class="holes two a" src="holes2.svg"/>
+        <img class="holes three a" src="holes3.svg"/>
+        <div id="sprite" class="sprite a">
+            <!-- <img id="sprite" src="sprite.png" class="sprite a" alt=""> -->
+            <img class="head" src="head1.png">
+            <img class="body" src="body1.png" alt="">
+        </div>
+        <div id="sprite1" class="sprite a">
+            <img class="head" src="head2.png">
+            <img class="body" src="body1.png" alt="">
+        </div>
+        <img id="hammer" class="hammer a" src="hammer.gif" />
+    </div>
+
+
+    <script>
+        let sprite = document.getElementById("sprite")
+        let hammer = document.getElementById("hammer")
+        console.log(sprite);
+        var x = 0
+        let positions = [
+            {
+                left: 8,
+                top: 37,
+            },
+            {
+                top: 28,
+                left: 30
+            },
+            {
+                left: 5,
+                top: 54
+            },
+            {
+                left: 20,
+                top: 48
+            },{
+                left: 36,
+                top: 42
+            },
+            {
+                left: 11,
+                top: 70
+            },
+            {
+                left: 32,
+                top: 61
+            }
+        ]
+        
+        // showUp(1)
+
+        setInterval(() => {
+            showUp(Math.floor(Math.random()*7), Math.random()*0.5)
+        }, 2200);
+
+
+
+
+        // for(let i = 0; i < 7; i++){
+        //     setTimeout(() => {
+        //         showUp(i, 0.5)
+        //     }, 1000 * i);
+        // }
+        
+
+        sprite.onmousedown = () => {
+            console.log(x);
+            if(x > 0 && x < 20){
+                hammer.style.display = "block"
+                let top =  sprite.style.top.substring(0, sprite.style.top.length-2)
+                let left = sprite.style.left.substring(0, sprite.style.left.length-2)
+                sprite.style.display = "none"
+                let sprite1 = document.getElementById("sprite1")
+                sprite1.style.display = "flex"
+                sprite1.style.top = sprite.style.top
+                sprite1.style.left = sprite.style.left
+                sprite1.style.zIndex = sprite.style.zIndex
+                hammer.style.top = Number(top) - 19 + "vh"
+                hammer.style.left = Number(left) - 33 + "vh"
+                setTimeout(() => {
+                    hammer.style.display = "none"
+                    sprite.style.display = "flex"
+                    sprite1.style.display = "none"
+                }, 1100);
+            }
+        }
+
+
+        function showUp(position, speed = 0.2){
+            sprite.style.left = positions[position].left + "vh"
+            sprite.style.top = positions[position].top + "vh"
+            if(position < 2){
+                sprite.style.zIndex = 0
+            } else if(position < 5){
+                sprite.style.zIndex = 1
+            }else{
+                sprite.style.zIndex = 2
+            }
+            x = 0
+            let interval = setInterval(() => {
+                if(x > 30){
+                    clearInterval(interval)
+                }else{
+                    if(x > 15){
+                        sprite.style.top = positions[position].top + (x - 30) + "vh"
+                    }else{
+                        sprite.style.top = positions[position].top - x + "vh"
+                    }
+                }
+                x+= 0.2 + speed
+            }, 10);
+        }
+    </script>
+
+</body>
+</html>
